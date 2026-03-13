@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torch_geometric.nn import GCNConv
 
 class BaselineLSTM(nn.Module):
     def __init__(self, input_dim, hidden_size, num_layers, output_size):
@@ -155,3 +156,57 @@ class CoupledCJDPINN(nn.Module):
 
         physics_loss = torch.mean(ode_M**2) + torch.mean(ode_P**2)
         return physics_loss
+
+
+class HeirarchicalGraphPINN(nn.Module):
+    def __init__(self, num_node_features=1, hidden_size=32):
+        super(HeirarchicalGraphPINN, self).__init__()
+
+        self.node_encoder = nn.Sequential(
+            nn.Linear(num_node_features + 1, hidden_size),
+            nn.Tanh(),
+            nn.Linear(hidden_size, hidden_size),
+            nn.Tanh()
+        )
+
+        self.spacial_gcn = GCNConv(hidden_size, hidden_size)
+
+        self.decoder = nn.Sequential(
+            nn.Linear(hidden_size, hidden_size // 2),
+            nn.Tanh(),
+            nn.Linear(hidden_size // 2,1),
+            nn.Sigmoid()
+        )
+
+        self.k = nn.Parameter(torch.tensor([0.05]))
+        self.alpha = nn.Parameter(torch.tensor([0.1]))
+    
+    def forward(self, x, t, edge_index, edge_weight=None):
+        t_expanded = t.expand(x.size(0), 1)
+        inputs = torch.cat([x,t_expanded], dim=1)
+        h = self.node_encoder(inputs)
+        h_spatial = self.spacial_gcn(h, edge_index, edge_weight)
+        h_combined = torch.tanh(h+h_spatial)
+        pred_volume = self.decoder(h_combined)
+
+        return pred_volume
+
+    def compute_physics_loss(self, x_baseline, t, edge_index, edge_weight, L_matrix):
+        """
+        Network Diffusion Heat Equation : dV/dt = -kV + alpha * L * V
+        """
+        t.requires_grad_(True)
+        V = self.forward(x_baseline, t, edge_index, edge_weight)
+
+        dV_dt = torch.autograd.grad(
+            outputs=V,
+            inputs=t,
+            grad_outputs=torch.ones_like(V),
+            create_graph=True
+        )[0]
+
+        local_decay = -self.k * V
+        diffusion_term = self.alpha * torch.matmul(L_matrix, V)
+        ode_residual = dV_dt - local_decay - diffusion_term
+
+        return torch.mean(ode_residual**2)
