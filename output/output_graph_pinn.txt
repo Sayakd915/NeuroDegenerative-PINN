@@ -1,0 +1,38 @@
+ Initializing Graph PINN
+
+ Dataset loaded successfully
+ Applying Per-Node Biological Scaling...
+Epoch [1/30] | Graph MSE: 0.050157 | Physics Loss: 4.488775
+Epoch [2/30] | Graph MSE: 0.050098 | Physics Loss: 0.024284
+Epoch [3/30] | Graph MSE: 0.046019 | Physics Loss: 0.014771
+Epoch [4/30] | Graph MSE: 0.041684 | Physics Loss: 0.008338
+Epoch [5/30] | Graph MSE: 0.039226 | Physics Loss: 0.007953
+Epoch [6/30] | Graph MSE: 0.036285 | Physics Loss: 0.005468
+Epoch [7/30] | Graph MSE: 0.031251 | Physics Loss: 0.004613
+Epoch [8/30] | Graph MSE: 0.035166 | Physics Loss: 0.003427
+Epoch [9/30] | Graph MSE: 0.029539 | Physics Loss: 0.002179
+Epoch [10/30] | Graph MSE: 0.030976 | Physics Loss: 0.001539
+Epoch [11/30] | Graph MSE: 0.030529 | Physics Loss: 0.001603
+Epoch [12/30] | Graph MSE: 0.029029 | Physics Loss: 0.000919
+Epoch [13/30] | Graph MSE: 0.027716 | Physics Loss: 0.000451
+Epoch [14/30] | Graph MSE: 0.028517 | Physics Loss: 0.000495
+Epoch [15/30] | Graph MSE: 0.029092 | Physics Loss: 0.000653
+Epoch [16/30] | Graph MSE: 0.028262 | Physics Loss: 0.000354
+Epoch [17/30] | Graph MSE: 0.030017 | Physics Loss: 0.000346
+Epoch [18/30] | Graph MSE: 0.027985 | Physics Loss: 0.000433
+Epoch [19/30] | Graph MSE: 0.026390 | Physics Loss: 0.000386
+Epoch [20/30] | Graph MSE: 0.027955 | Physics Loss: 0.000427
+Epoch [21/30] | Graph MSE: 0.027803 | Physics Loss: 0.000573
+Epoch [22/30] | Graph MSE: 0.027091 | Physics Loss: 0.000511
+Epoch [23/30] | Graph MSE: 0.027580 | Physics Loss: 0.000903
+Epoch [24/30] | Graph MSE: 0.027363 | Physics Loss: 0.000478
+Epoch [25/30] | Graph MSE: 0.027193 | Physics Loss: 0.001026
+Epoch [26/30] | Graph MSE: 0.026168 | Physics Loss: 0.001489
+Epoch [27/30] | Graph MSE: 0.026855 | Physics Loss: 0.000627
+Epoch [28/30] | Graph MSE: 0.027418 | Physics Loss: 0.002011
+Epoch [29/30] | Graph MSE: 0.025547 | Physics Loss: 0.002801
+Epoch [30/30] | Graph MSE: 0.025053 | Physics Loss: 0.001598
+
+ Training completed
+
+ Model saved to models/graph_pinn_model.pth

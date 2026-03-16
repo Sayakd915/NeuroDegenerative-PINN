@@ -49,7 +49,7 @@ def plot_regional_trajectories(model, graph_data, node_indices, region_names, pa
     ax.grid(True, linestyle='--', alpha=0.5)
     
     ax.legend(loc='upper left', bbox_to_anchor=(1.02, 1))
-    plt.savefig(f"A_Star_Regional_Trajectory_PT_{patient_id}.pdf", format='pdf')
+    plt.savefig(f"Graph_Regional_Trajectory_PT_{patient_id}.pdf", format='pdf')
     plt.close()
 
 def plot_connectome_adjacency(adj_matrix, num_nodes=50):
@@ -67,7 +67,7 @@ def plot_connectome_adjacency(adj_matrix, num_nodes=50):
     ax.set_xlabel(f"Brain Regions (Subset of {num_nodes})")
     ax.set_ylabel(f"Brain Regions (Subset of {num_nodes})")
     
-    plt.savefig("A_Star_Connectome_Heatmap.pdf", format='pdf')
+    plt.savefig("Graph_Connectome_Heatmap.pdf", format='pdf')
     plt.close()
 
 def plot_loss_convergence(data_losses, phys_losses):
@@ -93,5 +93,5 @@ def plot_loss_convergence(data_losses, phys_losses):
 
     fig.suptitle('PI-GNN Optimization Dynamics', fontweight='bold', fontsize=14)
     fig.tight_layout()
-    plt.savefig("A_Star_Loss_Convergence.pdf", format='pdf')
+    plt.savefig("Graph_Loss_Convergence.pdf", format='pdf')
     plt.close()
