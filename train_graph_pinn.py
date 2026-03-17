@@ -17,22 +17,16 @@ def train_graph_pinn():
         print(f"Error loading dataset: {e}")
         return
 
-    # --- HETEROGENEOUS TOPOLOGICAL NORMALIZATION ---
     print(" Applying Per-Node Biological Scaling...")
-    # Stack all baseline volumes to find the global maximum for each of the 232 nodes
     all_x = torch.stack([g.x for g in dataset]) 
     node_maxes = all_x.max(dim=0)[0] 
-    node_maxes[node_maxes == 0] = 1.0 # Prevent division by zero
+    node_maxes[node_maxes == 0] = 1.0
     
-    # Scale every region strictly between 0.0 and 1.0 based on its specific anatomical capacity
     for g in dataset:
         g.x = g.x / node_maxes
         g.y_seq = g.y_seq / node_maxes
-    # -----------------------------------------------
 
     model = HeirarchicalGraphPINN(num_node_features=1)
-    
-    # We use lr=0.001 to keep the normalized gradients stable
     optimizer = optim.Adam(model.parameters(), lr=0.001) 
     mse_loss = nn.MSELoss()
 
@@ -71,7 +65,6 @@ def train_graph_pinn():
             patient_physics_loss = 0
 
             for i, t_val in enumerate(times):
-                # Time Normalization (t = 1.0 represents 100 months)
                 t_val_norm = t_val / 100.0
                 t_tensor = torch.tensor([[t_val_norm]], dtype=torch.float32)
                 
@@ -86,11 +79,8 @@ def train_graph_pinn():
             total_loss.backward()
             optimizer.step()
 
-            # --- LOGGING FIX ---
-            # Average the loss across the longitudinal sequence length before adding to the epoch
             epoch_data_loss += (patient_data_loss.item() / len(times))
             epoch_physics_loss += (patient_physics_loss.item() / len(times))
-            # -------------------
 
             if valid_patients >= 50:
                 break
@@ -109,7 +99,6 @@ def train_graph_pinn():
 
     plot_loss_convergence(history_data_loss, history_physics_loss)
     
-    # Reconstruct dense adj matrix for the heatmap plot
     num_nodes = graph.x.size(0)
     adj_matrix = np.zeros((num_nodes, num_nodes))
     edges = graph.edge_index.numpy()
