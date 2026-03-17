@@ -6,7 +6,7 @@ The framework supports applying physical constraints through Ordinary Differenti
 
 ---
 
-## 🔬 Core Architectures and Physics Integration
+## Core Architectures and Physics Integration
 
 The codebase explores multiple architectures tuned for specific diseases and biological kinetics:
 
