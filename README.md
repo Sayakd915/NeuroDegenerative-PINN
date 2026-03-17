@@ -79,7 +79,7 @@ Ensure you have Python 3.9+ installed.
 1. Clone the repository:
    ```bash
    git clone <repository_url>
-   cd CMU_code
+   cd Neurodegenerative-PINN
    ```
 
 2. Create a virtual environment (Optional but Recommended):
